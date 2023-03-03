@@ -15,7 +15,7 @@ public class BlogControllerTest {
 
     @Test
     void testGetAllBlogs(){
-        Result allBlogs = blogController.getAllBlogs();
+        Result allBlogs = blogController.getAllBlogs(1);
         System.out.println(allBlogs);
     }
 
