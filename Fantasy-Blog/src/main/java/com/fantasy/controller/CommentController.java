@@ -4,6 +4,7 @@ package com.fantasy.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Controller;
  * @author Fantasy0521
  * @since 2023-03-03
  */
-@Controller
-@RequestMapping("/fantasy/comment")
+@RestController
+//@RequestMapping("/fantasy/comment")
 public class CommentController {
+
+    //TODO
 
 }
 

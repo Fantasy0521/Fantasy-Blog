@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fantasy.entity.Blog;
 import com.fantasy.model.Result.PageResult;
 import com.fantasy.model.Result.Result;
+import com.fantasy.model.vo.BlogDetail;
 import com.fantasy.model.vo.BlogInfo;
 import com.fantasy.service.IBlogService;
 import com.fantasy.service.impl.BlogServiceImpl;
@@ -40,10 +41,14 @@ public class BlogController {
      */
     @GetMapping("/blogs")
     public Result getAllBlogs(@RequestParam(defaultValue = "1") Integer pageNum){
-
         PageResult<BlogInfo> allBlogsByPage = blogService.getAllBlogsByPage(pageNum);
-
         return Result.ok("获取所有博客信息成功!",allBlogsByPage);
+    }
+
+    @GetMapping("/blog")
+    public Result getOneBlogsById(@RequestParam Long id){
+        BlogDetail blogById = blogService.getBlogById(id);
+        return Result.ok("获取博客详情信息成功",blogById);
     }
 
 }

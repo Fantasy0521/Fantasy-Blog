@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fantasy.entity.Blog;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fantasy.model.Result.PageResult;
+import com.fantasy.model.vo.BlogDetail;
 import com.fantasy.model.vo.BlogInfo;
 
 /**
@@ -16,6 +17,8 @@ import com.fantasy.model.vo.BlogInfo;
  */
 public interface IBlogService extends IService<Blog> {
 
-    public PageResult<BlogInfo> getAllBlogsByPage(Integer pageNum);
+    PageResult<BlogInfo> getAllBlogsByPage(Integer pageNum);
+
+    BlogDetail getBlogById(Long id);
 
 }

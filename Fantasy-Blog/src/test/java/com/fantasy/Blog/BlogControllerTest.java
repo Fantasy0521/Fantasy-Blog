@@ -19,4 +19,10 @@ public class BlogControllerTest {
         System.out.println(allBlogs);
     }
 
+    @Test
+    void testGetOneBlogsById(){
+        Result oneBlogsById = blogController.getOneBlogsById(1L);
+        System.out.println(oneBlogsById);
+    }
+
 }
