@@ -2,4 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fantasy.mapper.TagMapper">
 
+    <resultMap id="tag" type="com.fantasy.entity.Tag">
+        <id property="id" column="id"/>
+        <result property="name" column="tag_name"/>
+        <result property="color" column="color"/>
+    </resultMap>
+
+    <select id="getTagListById" resultMap="tag">
+        select t.id,t.tag_name,t.color from blog_tag bt,tag t
+        where bt.tag_id = t.id and bt.blog_id = #{blogId}
+    </select>
+
 </mapper>

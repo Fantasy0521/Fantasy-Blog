@@ -6,10 +6,12 @@ import com.fantasy.entity.Blog;
 import com.fantasy.entity.Category;
 import com.fantasy.entity.Tag;
 import com.fantasy.mapper.BlogMapper;
+import com.fantasy.mapper.TagMapper;
 import com.fantasy.model.Result.PageResult;
 import com.fantasy.model.vo.BlogInfo;
 import com.fantasy.service.IBlogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fantasy.util.markdown.MarkdownUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
 
     @Resource
     private TagServiceImpl tagService;
+
+    @Resource
+    private TagMapper tagMapper;
 
     //统一设定一页的博客数量为5
     private int pageSize = 5;
@@ -79,7 +84,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
      * @param blogInfoPage
      */
     private void extracted(Page<Blog> blogPage, Page<BlogInfo> blogInfoPage) {
-        //对象拷贝
+        //1 对象拷贝
         BeanUtils.copyProperties(blogPage, blogInfoPage,"records");
         //对records进行处理
         List<Blog> records = blogPage.getRecords();
@@ -87,7 +92,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
             BlogInfo blogInfo = new BlogInfo();
             //对象拷贝
             BeanUtils.copyProperties(item,blogInfo);
-            //进行扩展
+
+            //2 对原本字段进行扩展
             //文章是否为私有
             if (item.getIsPublished() != null) {
                 blogInfo.setPrivacy(!item.getIsPublished());
@@ -98,19 +104,19 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
             LocalDateTime createTime = item.getCreateTime();
             Date date = Date.from(createTime.atZone( ZoneId.systemDefault()).toInstant());
             blogInfo.setCreateTime(date);
+            //使用MarkDown工具类处理md语法
+            blogInfo.setDescription(MarkdownUtils.markdownToHtmlExtensions(blogInfo.getDescription()));
+
+            //3 查询其他关联表数据
             //查询文章分类
             LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Category::getId,item.getCategoryId());
             Category category = categoryService.getOne(queryWrapper);
             blogInfo.setCategory(category);
             //查询所属的标签
-            //TODO 此处需要用到中间表Blog_Tag 多对多
-            LambdaQueryWrapper<Tag> queryWrapper1 = new LambdaQueryWrapper<>();
-//            queryWrapper.eq(Tag::getId,item.get)
-            List<Tag> tags = new ArrayList<>();
-            Tag tag = tagService.getById(1);
-            tags.add(tag);
-            blogInfo.setTags(tags);
+            // 此处需要用到中间表Blog_Tag 多对多
+            List<Tag> tagListById = tagMapper.getTagListById(blogInfo.getId());
+            blogInfo.setTags(tagListById);
             //查询
             return blogInfo;
         }).collect(Collectors.toList());
