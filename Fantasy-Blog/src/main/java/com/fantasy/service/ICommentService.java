@@ -15,4 +15,6 @@ import com.fantasy.model.vo.PageComment;
  */
 public interface ICommentService extends IService<Comment> {
     PageResult<PageComment> getCommentsList(Integer page, Long blogId, Integer pageNum, Integer pageSize);
+
+    void saveComment(Comment comment);
 }

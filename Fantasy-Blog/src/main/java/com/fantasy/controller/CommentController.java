@@ -1,6 +1,7 @@
 package com.fantasy.controller;
 
 
+import com.fantasy.entity.Comment;
 import com.fantasy.model.Result.PageResult;
 import com.fantasy.model.Result.Result;
 import com.fantasy.model.vo.PageComment;
@@ -8,12 +9,9 @@ import com.fantasy.service.ICategoryService;
 import com.fantasy.service.ICommentService;
 import com.fantasy.service.impl.CommentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,6 +62,18 @@ public class CommentController {
         map.put("closeComment", allComment - openComment);
         map.put("comments", pageInfo);
         return Result.ok("获取成功", map);
+    }
+
+    // http://localhost:8090/comment   POST
+    /**
+     * 提交新增评论
+     * @param comment
+     * @return
+     */
+    @PostMapping("/comment")
+    public Result postComment(@RequestBody Comment comment){
+        commentService.saveComment(comment);
+        return Result.ok("评论成功");
     }
 
 }

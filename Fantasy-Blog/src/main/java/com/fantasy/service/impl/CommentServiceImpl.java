@@ -2,6 +2,7 @@ package com.fantasy.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fantasy.entity.Comment;
+import com.fantasy.exception.BizException;
 import com.fantasy.mapper.CommentMapper;
 import com.fantasy.model.Result.PageResult;
 import com.fantasy.model.vo.PageComment;
@@ -12,6 +13,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,5 +105,28 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
     }
 
-
+    /**
+     * 新增评论
+     * @param comment
+     */
+    @Override
+    public void saveComment(Comment comment) {
+        comment.setCreateTime(LocalDateTime.now());
+        if (comment.getAvatar()==null){
+            comment.setAvatar("/img/comment-avatar/2.jpg");
+        }
+        if (comment.getIsPublished() == null) {
+            comment.setIsPublished(true);
+        }
+        if (comment.getIsAdminComment() == null){
+            comment.setIsAdminComment(false);
+        }
+        if (comment.getIsNotice() == null){
+            comment.setIsNotice(false);
+        }
+        boolean save = this.save(comment);
+        if(!save){
+            throw new RuntimeException(new BizException("评论失败"));
+        }
+    }
 }
