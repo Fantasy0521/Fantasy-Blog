@@ -33,6 +33,11 @@ public class BlogInfo {
 	private String password;//文章密码
 	private Boolean privacy;//是否私密文章
 
+	/**
+	 * 文章首图，用于随机文章展示
+	 */
+	private String firstPicture;
+
 	private Category category;//文章分类
 	private List<Tag> tags = new ArrayList<>();//文章标签
 }

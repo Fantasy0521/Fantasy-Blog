@@ -1,6 +1,7 @@
 package com.fantasy.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class Tag implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
+    @TableField(value = "tag_name")
     private String name;
 
     /**
@@ -36,6 +38,7 @@ public class Tag implements Serializable {
     private String color;
 
     //该标签下的博客文章
+    @TableField(exist = false)
     private List<Blog> blogs = new ArrayList<>();
 
 }
