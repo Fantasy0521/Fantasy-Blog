@@ -1,8 +1,8 @@
 package com.fantasy;
 
-import com.baomidou.mybatisplus.generator.FastAutoGenerator;
-import com.baomidou.mybatisplus.generator.config.OutputFile;
-import com.baomidou.mybatisplus.generator.config.po.LikeTable;
+//import com.baomidou.mybatisplus.generator.FastAutoGenerator;
+//import com.baomidou.mybatisplus.generator.config.OutputFile;
+//import com.baomidou.mybatisplus.generator.config.po.LikeTable;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

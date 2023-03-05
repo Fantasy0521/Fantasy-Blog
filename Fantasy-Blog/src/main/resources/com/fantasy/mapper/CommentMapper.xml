@@ -2,4 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fantasy.mapper.CommentMapper">
 
+    <resultMap id="pageComment" type="com.fantasy.model.vo.PageComment">
+        <id property="id" column="id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="content" column="content"/>
+        <result property="avatar" column="avatar"/>
+        <result property="createTime" column="create_time"/>
+        <result property="website" column="website"/>
+        <result property="adminComment" column="is_admin_comment"/>
+        <result property="parentCommentId" column="parent_comment_id"/>
+        <result property="parentCommentNickname" column="parent_comment_nickname"/>
+    </resultMap>
+
+    <!--查询页面展示的评论List-->
+    <select id="getPageCommentListByPageAndParentCommentId" resultMap="pageComment">
+        select c1.id, c1.nickname, c1.content, c1.avatar, c1.create_time, c1.is_admin_comment, c1.website,
+        c1.parent_comment_id as parent_comment_id, c2.nickname as parent_comment_nickname
+        from comment as c1 left join comment as c2 on c1.parent_comment_id=c2.id
+        <where> c1.page=#{page}
+        <if test="page==0 and blogId!=null">
+            and c1.blog_id=#{blogId}
+        </if>
+        and c1.parent_comment_id=#{parentCommentId}
+        and c1.is_published=true
+        order by c1.create_time desc
+        </where>
+    </select>
 </mapper>

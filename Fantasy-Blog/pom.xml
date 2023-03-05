@@ -7,6 +7,8 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.9</version>
         <relativePath/> <!-- lookup parent from repository -->
+
+
     </parent>
     <groupId>com.fantasy</groupId>
     <artifactId>Fantasy-Blog</artifactId>
@@ -60,21 +62,21 @@
             <artifactId>mybatis-plus</artifactId>
             <version>3.5.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.5.1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.baomidou</groupId>-->
+<!--            <artifactId>mybatis-plus-generator</artifactId>-->
+<!--            <version>3.5.1</version>-->
+<!--        </dependency>-->
         <!--可以选择加入的日志依赖-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>1.7</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.velocity</groupId>-->
+<!--            <artifactId>velocity</artifactId>-->
+<!--            <version>1.7</version>-->
+<!--        </dependency>-->
 
         <!-- Markdown 转 HTML -->
         <dependency>
@@ -101,6 +103,19 @@
             <groupId>com.atlassian.commonmark</groupId>
             <artifactId>commonmark-ext-task-list-items</artifactId>
             <version>0.15.2</version>
+        </dependency>
+
+        <!-- 分页插件PageHelper-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.5</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 

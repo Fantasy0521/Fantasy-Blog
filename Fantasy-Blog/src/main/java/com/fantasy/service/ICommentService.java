@@ -2,6 +2,8 @@ package com.fantasy.service;
 
 import com.fantasy.entity.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fantasy.model.Result.PageResult;
+import com.fantasy.model.vo.PageComment;
 
 /**
  * <p>
@@ -12,5 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-03-03
  */
 public interface ICommentService extends IService<Comment> {
-
+    PageResult<PageComment> getCommentsList(Integer page, Long blogId, Integer pageNum, Integer pageSize);
 }
