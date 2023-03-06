@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fantasy.entity.Blog;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fantasy.model.Result.PageResult;
+import com.fantasy.model.Result.Result;
+import com.fantasy.model.dto.BlogDto;
 import com.fantasy.model.vo.BlogDetail;
 import com.fantasy.model.vo.BlogInfo;
 
@@ -29,4 +31,6 @@ public interface IBlogService extends IService<Blog> {
     Map<String, Object> getArchiveBlogAndCountByIsPublished();
 
     List<Blog> getSearchBlogs(String query);
+
+    Result saveBlog(BlogDto blog, String type);
 }

@@ -1,4 +1,4 @@
-package com.fantasy.controller;
+package com.fantasy.controller.admin;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

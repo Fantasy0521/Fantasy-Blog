@@ -1,4 +1,4 @@
-package com.fantasy.controller;
+package com.fantasy.controller.admin;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Controller;
  * @since 2023-03-03
  */
 @Controller
-@RequestMapping("/fantasy/visitor")
-public class VisitorController {
+@RequestMapping("/fantasy/scheduleJobLog")
+public class ScheduleJobLogController {
 
 }
 
