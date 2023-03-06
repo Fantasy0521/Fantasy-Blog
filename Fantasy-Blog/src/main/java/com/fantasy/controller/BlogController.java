@@ -9,6 +9,7 @@ import com.fantasy.model.vo.BlogDetail;
 import com.fantasy.model.vo.BlogInfo;
 import com.fantasy.service.IBlogService;
 import com.fantasy.service.impl.BlogServiceImpl;
+import com.fantasy.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -63,6 +64,24 @@ public class BlogController {
                            @RequestParam(defaultValue = "1") Integer pageNum) {
         PageResult<BlogInfo> pageResult = blogService.getBlogInfoListByCategoryNameAndIsPublished(categoryName, pageNum);
         return Result.ok("请求成功", pageResult);
+    }
+
+    //http://localhost:8090/searchBlog?query=%E4%BA%BA%E4%BA%BA
+
+    /**
+     * 搜索功能
+     * 按关键字根据文章内容搜索公开且无密码保护的博客文章
+     * @param query
+     * @return
+     */
+    @GetMapping("searchBlog")
+    public Result searchBlog(@RequestParam String query){
+        //校验关键字字符串合法性
+        if (StringUtils.isEmpty(query) || StringUtils.hasSpecialChar(query) || query.trim().length() > 20) {
+            return Result.error("参数错误");
+        }
+        List<Blog> blogs = blogService.getSearchBlogs(query);
+        return Result.ok(blogs);
     }
 
 }

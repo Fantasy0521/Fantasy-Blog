@@ -245,4 +245,18 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         map.put("count", list.size());
         return map;
     }
+
+    /**
+     * 根据关键字查询Blog
+     * @param query
+     * @return
+     */
+    @Override
+    public List<Blog> getSearchBlogs(String query) {
+        LambdaQueryWrapper<Blog> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(Blog::getId,Blog::getTitle,Blog::getContent);
+        queryWrapper.like(Blog::getTitle,query).or().like(Blog::getDescription,query).or().like(Blog::getContent,query);
+        List<Blog> list = this.list(queryWrapper);
+        return list;
+    }
 }
