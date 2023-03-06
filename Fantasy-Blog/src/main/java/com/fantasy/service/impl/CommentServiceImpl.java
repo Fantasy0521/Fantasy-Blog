@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -110,6 +111,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @param comment
      */
     @Override
+    @Transactional // 开启事务处理
     public void saveComment(Comment comment) {
         comment.setCreateTime(LocalDateTime.now());
         if (comment.getAvatar()==null){

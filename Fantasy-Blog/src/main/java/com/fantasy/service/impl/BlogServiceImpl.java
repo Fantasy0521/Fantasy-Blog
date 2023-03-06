@@ -10,20 +10,21 @@ import com.fantasy.exception.BizException;
 import com.fantasy.mapper.BlogMapper;
 import com.fantasy.mapper.TagMapper;
 import com.fantasy.model.Result.PageResult;
+import com.fantasy.model.vo.ArchiveBlog;
 import com.fantasy.model.vo.BlogDetail;
 import com.fantasy.model.vo.BlogInfo;
 import com.fantasy.service.IBlogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fantasy.util.markdown.MarkdownUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -45,6 +46,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
 
     @Resource
     private TagMapper tagMapper;
+
+    @Resource
+    private BlogMapper blogMapper;
+
+    //博客简介列表排序方式
+    private static final String orderBy = "is_top desc, create_time desc";
 
     //统一设定一页的博客数量为5
     private int pageSize = 5;
@@ -182,4 +189,60 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         return blogDetail;
     }
 
+    /**
+     * 根据分类名称查询博客列表
+     * @param categoryName
+     * @param pageNum
+     * @return
+     */
+    @Override
+    public PageResult<BlogInfo> getBlogInfoListByCategoryNameAndIsPublished(String categoryName, Integer pageNum) {
+        PageHelper.startPage(pageNum,pageSize,orderBy);
+        List<BlogInfo> blogInfos = blogMapper.getBlogInfoListByCategoryNameAndIsPublished(categoryName);
+        //需要对blog进行MarkDown处理
+        for (BlogInfo blogInfo : blogInfos) {
+            blogInfo.setDescription(MarkdownUtils.markdownToHtml(blogInfo.getDescription()));
+        }
+        PageInfo<BlogInfo> pageInfo = new PageInfo<>(blogInfos);
+        PageResult<BlogInfo> pageResult = new PageResult<>(pageInfo.getPages(),pageInfo.getList());
+        return pageResult;
+    }
+
+
+    /**
+     * 按年月分组归档公开博客 统计公开博客总数
+     * @return
+     */
+    @Override
+    public Map<String, Object> getArchiveBlogAndCountByIsPublished() {
+        //1 获取所有博客列表
+        LambdaQueryWrapper<Blog> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByDesc(Blog::getCreateTime);
+        List<Blog> list = this.list(queryWrapper);
+        //2 对所有博客进行处理, 转化为ArchiveBlog并统计
+        Map<String, List<ArchiveBlog>> archiveBlogMap = new LinkedHashMap<>();
+        for (Blog blog : list) {
+            LocalDateTime createTime = blog.getCreateTime();
+            int year = createTime.getYear();
+            int month = createTime.getMonthValue();
+            int day = createTime.getDayOfMonth();
+            String yearAndMonth = year+"年"+month+"月";
+            ArchiveBlog archiveBlog = new ArchiveBlog();
+            BeanUtils.copyProperties(blog,archiveBlog);
+            archiveBlog.setDay(day + "日");
+            //存入archiveBlogMap
+            List<ArchiveBlog> archiveBlogs = archiveBlogMap.get(yearAndMonth);
+            if (archiveBlogs == null) {// 为空则说明map中没有这个年月的键,因此进行创建list
+                archiveBlogs = new ArrayList<>();
+            }
+            //把archiveBlog加入map中,没有对应key则put为新增key value,有则为修改
+            archiveBlogs.add(archiveBlog);
+            archiveBlogMap.put(yearAndMonth,archiveBlogs);
+        }
+        //3 封装结果集
+        Map<String, Object> map = new HashMap<>();
+        map.put("blogMap", archiveBlogMap);
+        map.put("count", list.size());
+        return map;
+    }
 }

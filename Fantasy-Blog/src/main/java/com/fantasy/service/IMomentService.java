@@ -2,6 +2,7 @@ package com.fantasy.service;
 
 import com.fantasy.entity.Moment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fantasy.model.Result.PageResult;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMomentService extends IService<Moment> {
 
+    PageResult<Moment> getMomentsByPage(Integer pageNum);
 }

@@ -7,6 +7,8 @@ import com.fantasy.model.Result.PageResult;
 import com.fantasy.model.vo.BlogDetail;
 import com.fantasy.model.vo.BlogInfo;
 
+import java.util.Map;
+
 /**
  * <p>
  *  服务类
@@ -21,4 +23,7 @@ public interface IBlogService extends IService<Blog> {
 
     BlogDetail getBlogById(Long id);
 
+    PageResult<BlogInfo> getBlogInfoListByCategoryNameAndIsPublished(String categoryName, Integer pageNum);
+
+    Map<String, Object> getArchiveBlogAndCountByIsPublished();
 }

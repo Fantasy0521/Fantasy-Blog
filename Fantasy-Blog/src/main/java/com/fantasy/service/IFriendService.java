@@ -2,6 +2,7 @@ package com.fantasy.service;
 
 import com.fantasy.entity.Friend;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fantasy.model.vo.FriendInfo;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IFriendService extends IService<Friend> {
 
+    FriendInfo getFriendInfo(Boolean md);
 }

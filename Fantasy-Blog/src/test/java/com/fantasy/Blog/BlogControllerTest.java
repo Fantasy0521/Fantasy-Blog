@@ -25,4 +25,10 @@ public class BlogControllerTest {
         System.out.println(oneBlogsById);
     }
 
+    @Test
+    void testCategory(){
+        Result result = blogController.category("动漫", 1);
+        System.out.println(result);
+    }
+
 }

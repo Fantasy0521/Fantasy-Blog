@@ -37,6 +37,10 @@ public class Result {
         return new Result(200,msg);
     }
 
+    public static Result ok(Object data){
+        return new Result(200,"请求成功",data);
+    }
+
     public static Result error(String msg){
         return new Result(500,msg);
     }

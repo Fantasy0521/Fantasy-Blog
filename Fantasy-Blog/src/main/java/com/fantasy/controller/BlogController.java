@@ -51,5 +51,19 @@ public class BlogController {
         return Result.ok("获取博客详情信息成功",blogById);
     }
 
+    /**
+     * 根据分类名称分页查询公开的博客列表
+     * http://localhost:8090/category?categoryName=%E5%8A%A8%E6%BC%AB
+     * @param categoryName 分类名称
+     * @param pageNum 页码
+     * @return
+     */
+    @GetMapping("category")
+    public Result category(@RequestParam String categoryName,
+                           @RequestParam(defaultValue = "1") Integer pageNum) {
+        PageResult<BlogInfo> pageResult = blogService.getBlogInfoListByCategoryNameAndIsPublished(categoryName, pageNum);
+        return Result.ok("请求成功", pageResult);
+    }
+
 }
 

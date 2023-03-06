@@ -2,4 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fantasy.mapper.BlogMapper">
 
+    <resultMap id="blogInfo" type="com.fantasy.model.vo.BlogInfo">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="createTime" column="create_time"/>
+        <result property="views" column="views"/>
+        <result property="words" column="words"/>
+        <result property="readTime" column="read_time"/>
+        <result property="top" column="is_top"/>
+        <result property="password" column="password"/>
+        <!-- 配置关联 1对1-->
+        <association property="category" javaType="com.fantasy.entity.Category">
+            <result property="name" column="category_name"/>
+        </association>
+    </resultMap>
+
+    <!-- 根据分类名称查询博客列表-->
+    <select id="getBlogInfoListByCategoryNameAndIsPublished" resultMap="blogInfo">
+        select b.*,c.category_name from blog b,category c
+        <where>
+            b.category_id=c.id
+            and c.category_name=#{categoryName}
+            and b.is_published=true
+        </where>
+
+    </select>
+
+
 </mapper>
