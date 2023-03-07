@@ -2,6 +2,7 @@ package com.fantasy.mapper;
 
 import com.fantasy.entity.Blog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fantasy.model.dto.BlogDto;
 import com.fantasy.model.vo.BlogInfo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,5 +20,7 @@ import java.util.List;
 public interface BlogMapper extends BaseMapper<Blog> {
 
     List<BlogInfo> getBlogInfoListByCategoryNameAndIsPublished(String categoryName);
+
+    BlogDto getBlogById(Long id);
 
 }

@@ -1,7 +1,6 @@
 package com.fantasy.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fantasy.entity.Blog;
@@ -55,6 +54,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
 
     @Resource
     private BlogMapper blogMapper;
+
+    @Resource
+    private CommentServiceImpl commentService;
 
     @Resource
     private BlogTagServiceImpl blogTagService;
@@ -348,11 +350,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         //4 判断是新增还是修改 并且对Blog_Tag表进行维护
         blog.setUpdateTime(LocalDateTime.now());
         blog.setUserId(1L);//个人博客默认只有一个作者
-        blog.setIsPublished(blog.getPublished());
-        blog.setIsRecommend(blog.getRecommend());
-        blog.setIsAppreciation(blog.getAppreciation());
-        blog.setIsCommentEnabled(blog.getCommentEnabled());
-        blog.setIsTop(blog.getTop());
+        blogDtoToBlog(blog);
         blog.setTags(tags);
         if ("save".equals(type)) {
             blog.setCreateTime(LocalDateTime.now());
@@ -363,8 +361,6 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
             }
             return Result.ok("添加成功");
         } else {
-            //指定不修改的字段
-
             this.updateById(blog);
             //关联博客和标签(维护 blog_tag 表)
             LambdaUpdateWrapper<BlogTag> updateWrapper = new LambdaUpdateWrapper<>();
@@ -377,5 +373,89 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         }
     }
 
+    private void blogDtoToBlog(BlogDto blog) {
+        blog.setIsPublished(blog.getPublished());
+        blog.setIsRecommend(blog.getRecommend());
+        blog.setIsAppreciation(blog.getAppreciation());
+        blog.setIsCommentEnabled(blog.getCommentEnabled());
+        blog.setIsTop(blog.getTop());
+    }
 
+    private BlogDto blogToBlogDto(Blog blog) {
+        BlogDto blogDto = new BlogDto();
+        BeanUtils.copyProperties(blog,blogDto);
+        blogDto.setPublished(blogDto.getIsPublished());
+        blogDto.setRecommend(blogDto.getIsRecommend());
+        blogDto.setAppreciation(blogDto.getIsAppreciation());
+        blogDto.setCommentEnabled(blogDto.getIsCommentEnabled());
+        blogDto.setTop(blog.getIsTop());
+        blogDto.setCategory(categoryService.getById(blogDto.getCategoryId()));
+        return blogDto;
+    }
+
+
+    /**
+     * 分页查找所有博客或者搜索博客
+     * @param title
+     * @param categoryId
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public PageInfo<BlogDto> getAllorSearchBlogs(String title, Integer categoryId, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<Blog> queryWrapper = new LambdaQueryWrapper<>();
+        if (!StringUtils.isEmpty(title)) {
+            queryWrapper.like(Blog::getTitle,title);
+        }
+        if (categoryId != null) {
+            queryWrapper.eq(Blog::getCategoryId,categoryId);
+        }
+        PageHelper.startPage(pageNum,pageSize);
+        List<Blog> list = this.list(queryWrapper);
+        List<BlogDto> blogDtos = new ArrayList<>();
+        //需要返回Dto对象
+        for (Blog blog : list) {
+            BlogDto blogDto = blogToBlogDto(blog);
+            blogDtos.add(blogDto);
+        }
+        return new PageInfo<>(blogDtos);
+    }
+
+    @Override
+    public BlogDto getBlogDtoById(Long id) {
+        return blogMapper.getBlogById(id);
+    }
+
+    /**
+     * 根据id删除博客,同时删除该博客下的所有评论,并且需要维护Blog_Tag表
+     * @param id
+     * @return
+     */
+    @Override
+    @Transactional
+    public Result deleteBlogById(Integer id) {
+        //1 根据id删除博客
+        this.removeById(id);
+        //2 删除该博客下的所有评论
+        commentService.removeById(id);
+        //3 维护Blog_tag表
+        LambdaUpdateWrapper<BlogTag> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(BlogTag::getBlogId,id);
+        blogTagService.remove(updateWrapper);
+        return Result.ok("删除成功");
+    }
+
+    /**
+     * 只修改is_top字段
+     * @param id
+     * @param top
+     */
+    @Override
+    public void updateBlogTopById(Long id, Boolean top) {
+        LambdaUpdateWrapper<Blog> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(Blog::getIsTop,top);
+        updateWrapper.eq(Blog::getId,id);
+        this.update(updateWrapper);
+    }
 }

@@ -8,6 +8,7 @@ import com.fantasy.model.Result.Result;
 import com.fantasy.model.dto.BlogDto;
 import com.fantasy.model.vo.BlogDetail;
 import com.fantasy.model.vo.BlogInfo;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -33,4 +34,12 @@ public interface IBlogService extends IService<Blog> {
     List<Blog> getSearchBlogs(String query);
 
     Result saveBlog(BlogDto blog, String type);
+
+    PageInfo<BlogDto> getAllorSearchBlogs(String title, Integer categoryId, Integer pageNum, Integer pageSize);
+
+    BlogDto getBlogDtoById(Long id);
+
+    Result deleteBlogById(Integer id);
+
+    void updateBlogTopById(Long id, Boolean top);
 }

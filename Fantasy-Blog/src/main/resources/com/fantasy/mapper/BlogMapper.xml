@@ -18,6 +18,34 @@
         </association>
     </resultMap>
 
+    <resultMap id="blog" type="com.fantasy.model.dto.BlogDto">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="firstPicture" column="first_picture"/>
+        <result property="content" column="content"/>
+        <result property="description" column="description"/>
+        <result property="published" column="is_published"/>
+        <result property="recommend" column="is_recommend"/>
+        <result property="appreciation" column="is_appreciation"/>
+        <result property="commentEnabled" column="is_comment_enabled"/>
+        <result property="top" column="is_top"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="views" column="views"/>
+        <result property="words" column="words"/>
+        <result property="readTime" column="read_time"/>
+        <result property="password" column="password"/>
+        <association property="category" javaType="com.fantasy.entity.Category">
+            <id property="id" column="category_id"/>
+            <result property="name" column="category_name"/>
+        </association>
+        <collection property="tags" javaType="com.fantasy.entity.Tag">
+            <id property="id" column="tag_id"/>
+            <result property="name" column="tag_name"/>
+            <result property="color" column="color"/>
+        </collection>
+    </resultMap>
+
     <!-- 根据分类名称查询博客列表-->
     <select id="getBlogInfoListByCategoryNameAndIsPublished" resultMap="blogInfo">
         select b.*,c.category_name from blog b,category c
@@ -28,6 +56,17 @@
         </where>
 
     </select>
+
+    <!--按id查询博客-->
+    <select id="getBlogById" resultMap="blog">
+        select b.id, b.title, b.first_picture, b.content, b.description, b.is_recommend, b.is_published, b.is_appreciation,
+               b.is_comment_enabled, b.is_top, b.create_time, b.update_time, b.views, b.words, b.read_time, b.password,
+               c.id as category_id, c.category_name,
+               bt.tag_id as tag_id, t.tag_name as tag_name, t.color
+        from (((blog as b left join category as c on b.category_id=c.id) left join blog_tag as bt on b.id=bt.blog_id) left join tag as t on bt.tag_id=t.id)
+        where b.id=#{id}
+    </select>
+
 
 
 </mapper>
