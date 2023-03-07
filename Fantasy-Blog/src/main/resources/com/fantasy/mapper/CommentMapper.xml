@@ -12,6 +12,7 @@
         <result property="adminComment" column="is_admin_comment"/>
         <result property="parentCommentId" column="parent_comment_id"/>
         <result property="parentCommentNickname" column="parent_comment_nickname"/>
+        <result property="blogId" column="blog_id"/>
     </resultMap>
 
     <!--查询页面展示的评论List-->
@@ -33,8 +34,10 @@
     <select id="getPageCommentListByPageAndParentCommentId" resultMap="pageComment">
         select * from comment
         <where>
-            page = #{page}
-            <if test="page==0 and blogId!=null">
+            <if test="page!=null">
+                page = #{page}
+            </if>
+            <if test="page==0 or blogId!=null">
                 and blog_id=#{blogId}
             </if>
             and parent_comment_id=#{parentCommentId}

@@ -1,10 +1,13 @@
 package com.fantasy.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fantasy.entity.Blog;
+import com.fantasy.entity.BlogTag;
 import com.fantasy.entity.Comment;
 import com.fantasy.exception.BizException;
 import com.fantasy.mapper.CommentMapper;
 import com.fantasy.model.Result.PageResult;
+import com.fantasy.model.Result.Result;
 import com.fantasy.model.vo.PageComment;
 import com.fantasy.service.ICommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -31,6 +34,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private BlogServiceImpl blogService;
 
     //记录总评论数
     private int totalComment;
@@ -59,6 +65,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         for (PageComment c : comments) {
             List<PageComment> tmpComments = new ArrayList<>();
             getReplyComments(tmpComments, c.getReplyComments());
+            Blog blog = blogService.getById(c.getBlogId());
+            c.setBlog(blog);
+            for (PageComment tmpComment : tmpComments) {
+                blog = blogService.getById(tmpComment.getBlogId());
+                tmpComment.setBlog(blog);
+            }
             totalChild += tmpComments.size();
             c.setReplyComments(tmpComments);
         }
@@ -130,5 +142,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if(!save){
             throw new RuntimeException(new BizException("评论失败"));
         }
+    }
+
+    /**
+     * 根据id删除评论,会把其子评论也一起删除
+     * @param id
+     * @return
+     */
+    @Override
+    public Result deleteComment(Integer id) {
+//        getReplyComments();
+        return null;
     }
 }
