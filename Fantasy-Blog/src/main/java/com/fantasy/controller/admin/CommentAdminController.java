@@ -62,7 +62,7 @@ public class CommentAdminController {
 
     //4 删除评论 重点做一下http://localhost:8090/admin/comment?id=13
     @DeleteMapping("comment")
-    public Result deleteComment(@RequestParam Integer id){
+    public Result deleteComment(@RequestParam Long id){
         return commentService.deleteComment(id);
     }
 

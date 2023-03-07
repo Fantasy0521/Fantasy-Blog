@@ -1,10 +1,14 @@
 package com.fantasy.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -14,6 +18,7 @@ import java.time.LocalDateTime;
  * @author Fantasy0521
  * @since 2023-03-03
  */
+@Data
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -90,6 +95,11 @@ public class Comment implements Serializable {
      * 如果评论昵称为QQ号，则将昵称和头像置为QQ昵称和QQ头像，并将此字段置为QQ号备份
      */
     private String qq;
+
+
+
+    @TableField(exist = false)
+    private List<Comment> replyComments = new ArrayList<>();//回复该评论的评论
 
 
     public Long getId() {

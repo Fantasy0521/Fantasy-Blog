@@ -19,5 +19,5 @@ public interface ICommentService extends IService<Comment> {
 
     void saveComment(Comment comment);
 
-    Result deleteComment(Integer id);
+    Result deleteComment(Long id);
 }

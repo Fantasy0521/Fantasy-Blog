@@ -1,5 +1,6 @@
 package com.fantasy.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fantasy.entity.Blog;
 import com.fantasy.entity.BlogTag;
@@ -13,6 +14,7 @@ import com.fantasy.service.ICommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -150,8 +152,51 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @return
      */
     @Override
-    public Result deleteComment(Integer id) {
-//        getReplyComments();
-        return null;
+    @Transactional
+    public Result deleteComment(Long id) {
+        //1 查询出子评论
+        List<Comment> allReplyComments = getAllReplyComments(id);
+        //2 删除子评论
+        for (Comment comment : allReplyComments) {
+            delete(comment);
+        }
+        //3 删除此评论
+        if (!this.removeById(id)) {
+            throw new RuntimeException(new BizException("删除失败"));
+        }
+        return Result.ok("删除成功");
     }
+
+    /**
+     * 按id递归查询子评论
+     *
+     * @param parentCommentId 需要查询子评论的父评论id
+     * @return
+     */
+    private List<Comment> getAllReplyComments(Long parentCommentId) {
+        LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Comment::getParentCommentId,parentCommentId);
+        List<Comment> comments = this.list(queryWrapper);
+        for (Comment c : comments) {
+            List<Comment> replyComments = getAllReplyComments(c.getId());
+            c.setReplyComments(replyComments);
+        }
+        return comments;
+    }
+
+    /**
+     * 递归删除子评论
+     *
+     * @param comment 需要删除子评论的父评论
+     * @return
+     */
+    private void delete(Comment comment) {
+        for (Comment c : comment.getReplyComments()) {
+            delete(c);
+        }
+        if (!this.removeById(comment.getId())) {
+            throw new RuntimeException(new BizException("评论删除失败"));
+        }
+    }
+
 }
