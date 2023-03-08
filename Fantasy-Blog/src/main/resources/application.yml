@@ -30,3 +30,11 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
+# 静态文件上传访问路径 Linux环境如 :/home/My Blog/upload
+upload:
+  path: D:/tempImages/upload
+  access:
+    path: /images/**
+  resources:
+    locations: file:${upload.path}
+

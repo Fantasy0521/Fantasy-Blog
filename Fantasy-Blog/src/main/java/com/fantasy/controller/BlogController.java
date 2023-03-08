@@ -42,15 +42,14 @@ public class BlogController {
      * @return
      */
     @GetMapping("/blogs")
-    @ApiOperation(value = "访问首页")
+    @ApiOperation(value = "访问首页",notes = "1")
     public Result getAllBlogs(@RequestParam(defaultValue = "1") Integer pageNum){
         PageResult<BlogInfo> allBlogsByPage = blogService.getAllBlogsByPage(pageNum);
-        //测试异常
-        int i = 1/0;
         return Result.ok("获取所有博客信息成功!",allBlogsByPage);
     }
 
     @GetMapping("/blog")
+    @ApiOperation(value = "获取博客信息",notes = "1")
     public Result getOneBlogsById(@RequestParam Long id){
         BlogDetail blogById = blogService.getBlogById(id);
         return Result.ok("获取博客详情信息成功",blogById);
@@ -79,6 +78,7 @@ public class BlogController {
      * @return
      */
     @GetMapping("searchBlog")
+    @ApiOperation(value = "搜索博客",notes = "1")
     public Result searchBlog(@RequestParam String query){
         //校验关键字字符串合法性
         if (StringUtils.isEmpty(query) || StringUtils.hasSpecialChar(query) || query.trim().length() > 20) {

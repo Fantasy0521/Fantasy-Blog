@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -204,5 +205,16 @@ public class OperationLog implements Serializable {
                   ", createTime=" + createTime +
                   ", userAgent=" + userAgent +
               "}";
+    }
+
+    public OperationLog(String username, String uri, String method, String description, String ip, Integer times, String userAgent) {
+        this.username = username;
+        this.uri = uri;
+        this.method = method;
+        this.description = description;
+        this.ip = ip;
+        this.times = times;
+        this.createTime = LocalDateTime.now();
+        this.userAgent = userAgent;
     }
 }

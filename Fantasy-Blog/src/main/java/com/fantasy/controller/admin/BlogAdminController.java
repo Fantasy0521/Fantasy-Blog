@@ -9,6 +9,7 @@ import com.fantasy.service.IBlogService;
 import com.fantasy.service.ICategoryService;
 import com.fantasy.service.ITagService;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +40,7 @@ public class BlogAdminController {
      * @return
      */
     @PostMapping("blog")
+    @ApiOperation(value = "新增博客",notes = "2")
     public Result addBlog(@RequestBody BlogDto blog){
         return blogService.saveBlog(blog,"save");
     }
@@ -54,6 +56,7 @@ public class BlogAdminController {
      */
     //查询 http://localhost:8090/admin/blogs?title=&pageNum=1&pageSize=10
     @GetMapping("blogs")
+    @ApiOperation(value = "获取博客和分类信息",notes = "2")
     public Result blogs(@RequestParam(required = false) String title,
                         @RequestParam(required = false) Integer categoryId,
                         @RequestParam(defaultValue = "1") Integer pageNum,
@@ -100,6 +103,7 @@ public class BlogAdminController {
      * @return
      */
     @PutMapping("blog")
+    @ApiOperation(value = "更新博客",notes = "2")
     public Result updateBlog(@RequestBody BlogDto blogDto){
         return blogService.saveBlog(blogDto,"update");
     }
@@ -113,6 +117,7 @@ public class BlogAdminController {
      */
     //http://localhost:8090/admin/blog?id=1
     @DeleteMapping("blog")
+    @ApiOperation(value = "删除博客",notes = "2")
     public Result deleteBlog(@RequestParam Integer id){
         return blogService.deleteBlogById(id);
     }
