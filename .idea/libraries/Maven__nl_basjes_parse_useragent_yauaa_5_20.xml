@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: nl.basjes.parse.useragent:yauaa:5.20">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../Java/apache-maven-3.6.1/mvn_resp/nl/basjes/parse/useragent/yauaa/5.20/yauaa-5.20.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../Java/apache-maven-3.6.1/mvn_resp/nl/basjes/parse/useragent/yauaa/5.20/yauaa-5.20-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../Java/apache-maven-3.6.1/mvn_resp/nl/basjes/parse/useragent/yauaa/5.20/yauaa-5.20-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

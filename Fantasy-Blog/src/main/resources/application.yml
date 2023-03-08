@@ -9,6 +9,10 @@ spring:
     password: 1234
   main:
     allow-circular-references: true
+  mvc: # 解决引入knife4j产生的问题
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 
 
 mybatis-plus:

@@ -10,6 +10,7 @@ import com.fantasy.model.vo.BlogInfo;
 import com.fantasy.service.IBlogService;
 import com.fantasy.service.impl.BlogServiceImpl;
 import com.fantasy.util.StringUtils;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -41,8 +42,11 @@ public class BlogController {
      * @return
      */
     @GetMapping("/blogs")
+    @ApiOperation(value = "访问首页")
     public Result getAllBlogs(@RequestParam(defaultValue = "1") Integer pageNum){
         PageResult<BlogInfo> allBlogsByPage = blogService.getAllBlogsByPage(pageNum);
+        //测试异常
+        int i = 1/0;
         return Result.ok("获取所有博客信息成功!",allBlogsByPage);
     }
 

@@ -2,6 +2,7 @@ package com.fantasy.service;
 
 import com.fantasy.entity.ExceptionLog;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IExceptionLogService extends IService<ExceptionLog> {
 
+    @Async // 声明为异步方法,在接口定义是为了防止与impl中方法上的@Transaction注解失效!
+    void saveExceptionLog(ExceptionLog log);
 }
