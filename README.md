@@ -29,6 +29,7 @@
 7. 定时任务：[quartz](https://github.com/quartz-scheduler/quartz)
 8. UserAgent 解析：[yauaa](https://github.com/nielsbasjes/yauaa)
 9. 后端API接口文档: [Swagger](https://swagger.io/)
+10. 项目部署: [Linux](https://www.linux.org/pages/download/)
 
 基于 JDK8 开发，8以上要添加依赖：
 
@@ -77,6 +78,7 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 4. 启动后端服务
 5. 分别在`blog-cms`和`blog-view`目录下执行`npm install`安装依赖
 6. 分别在`blog-cms`和`blog-view`目录下执行`npm run serve`启动前后台页面
+7. 如果需要在Linux环境下部署项目,需要修改配置文件active为linux,并且修改前端代码的请求地址为Linux下的ip
 
 ## 致谢
 

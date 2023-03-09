@@ -1,0 +1,18 @@
+# linux环境下的配置
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.138.100:3306/fantasy-blog?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+
+# 静态文件上传访问路径 Linux环境如 :/home/My Blog/upload
+upload:
+  path: /tmp/upload
+  access:
+    path: /images/**
+  resources:
+    locations: file:${upload.path}
+
+

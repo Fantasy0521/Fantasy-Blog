@@ -2,17 +2,14 @@ server:
   port: 8090
 
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///fantasy-blog
-    username: root
-    password: 1234
   main:
     allow-circular-references: true
   mvc: # 解决引入knife4j产生的问题
     pathmatch:
       matching-strategy: ant_path_matcher
-
+      
+  profiles: # 设置环境配置文件
+    active: linux # 启用application-linux或windows
 
 
 mybatis-plus:
@@ -30,11 +27,5 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
-# 静态文件上传访问路径 Linux环境如 :/home/My Blog/upload
-upload:
-  path: D:/tempImages/upload
-  access:
-    path: /images/**
-  resources:
-    locations: file:${upload.path}
+
 
