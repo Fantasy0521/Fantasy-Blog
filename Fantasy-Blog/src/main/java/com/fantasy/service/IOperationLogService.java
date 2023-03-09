@@ -2,6 +2,7 @@ package com.fantasy.service;
 
 import com.fantasy.entity.OperationLog;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IOperationLogService extends IService<OperationLog> {
 
+    @Async
+    void saveOperationLog(OperationLog operationLog);
 }

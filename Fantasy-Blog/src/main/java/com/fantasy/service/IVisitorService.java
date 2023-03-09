@@ -2,6 +2,7 @@ package com.fantasy.service;
 
 import com.fantasy.entity.Visitor;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * <p>
@@ -13,4 +14,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IVisitorService extends IService<Visitor> {
 
+    boolean hasUUID(String identification);
+
+    @Async
+    void saveVisitor(Visitor visitor);
 }

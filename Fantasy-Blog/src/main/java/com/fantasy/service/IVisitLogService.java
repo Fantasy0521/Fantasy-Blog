@@ -2,6 +2,7 @@ package com.fantasy.service;
 
 import com.fantasy.entity.VisitLog;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IVisitLogService extends IService<VisitLog> {
 
+    @Async
+    void saveVisitLog(VisitLog visitLog);
 }
