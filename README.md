@@ -13,7 +13,7 @@
 
 ## 简介
 
-本项目根据开源项目https://github.com/Naccl/NBlog进行改写,主要用于对后端代码进行学习
+本项目根据开源项目https://github.com/Naccl/NBlog 进行改写,主要用于对后端代码进行学习
 
 本着『前后端分离，人不分离』的要领，开发了此基于 Spring Boot + Vue 前后端分离博客系统
 
