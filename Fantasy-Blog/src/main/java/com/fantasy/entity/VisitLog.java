@@ -3,6 +3,9 @@ package com.fantasy.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,6 +20,9 @@ import java.util.Date;
  * @since 2023-03-03
  */
 @TableName("visit_log")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class VisitLog implements Serializable {
 
     private static final long serialVersionUID = 1L;

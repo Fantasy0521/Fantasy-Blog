@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,4 +55,8 @@ public class VisitLogServiceImpl extends ServiceImpl<VisitLogMapper, VisitLog> i
     public int countVisitLogByToday() {
         return visitLogMapper.countVisitLogByToday();
     }
+
+    @Override
+    public List<VisitLog> getVisitLogListByUUIDAndDate(String uuid, String startDate, String endDate) {
+        return visitLogMapper.getVisitLogListByUUIDAndDate(uuid, startDate, endDate);    }
 }

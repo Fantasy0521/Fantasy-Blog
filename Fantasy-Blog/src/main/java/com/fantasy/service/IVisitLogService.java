@@ -4,6 +4,8 @@ import com.fantasy.entity.VisitLog;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.scheduling.annotation.Async;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -18,4 +20,6 @@ public interface IVisitLogService extends IService<VisitLog> {
     void saveVisitLog(VisitLog visitLog);
 
     int countVisitLogByToday();
+
+    List<VisitLog> getVisitLogListByUUIDAndDate(String uuid, String startDate, String endDate);
 }

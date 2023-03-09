@@ -6,5 +6,38 @@
     <select id="countVisitLogByToday" resultType="java.lang.Integer">
         select count(*) from visit_log where date(create_time)=curdate()
     </select>
-    
+
+
+    <resultMap id="log" type="com.fantasy.entity.VisitLog">
+        <id property="id" column="id"/>
+        <result property="uuid" column="uuid"/>
+        <result property="uri" column="uri"/>
+        <result property="method" column="method"/>
+        <result property="param" column="param"/>
+        <result property="behavior" column="behavior"/>
+        <result property="content" column="content"/>
+        <result property="remark" column="remark"/>
+        <result property="ip" column="ip"/>
+        <result property="ipSource" column="ip_source"/>
+        <result property="os" column="os"/>
+        <result property="browser" column="browser"/>
+        <result property="times" column="times"/>
+        <result property="createTime" column="create_time"/>
+        <result property="userAgent" column="user_agent"/>
+    </resultMap>
+
+    <!--查询日志-->
+    <select id="getVisitLogListByUUIDAndDate" resultMap="log">
+        <bind name="uuidPattern" value="'%' + uuid + '%'"/>
+        select id, uuid, uri, method, param, behavior, content, remark, ip, ip_source, os, browser, times, create_time
+        from visit_log
+        <where>
+            <if test="uuid!=null and uuid!=''">
+                uuid like #{uuidPattern}
+            </if>
+            <if test="startDate!=null and startDate!='' and endDate!=null and endDate!=''">
+                and create_time between #{startDate} and #{endDate}
+            </if>
+        </where>
+    </select>
 </mapper>
