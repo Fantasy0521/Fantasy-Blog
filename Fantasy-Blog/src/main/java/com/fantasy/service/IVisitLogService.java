@@ -16,4 +16,6 @@ public interface IVisitLogService extends IService<VisitLog> {
 
     @Async
     void saveVisitLog(VisitLog visitLog);
+
+    int countVisitLogByToday();
 }

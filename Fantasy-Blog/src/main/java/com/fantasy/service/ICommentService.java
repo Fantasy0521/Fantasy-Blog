@@ -20,4 +20,6 @@ public interface ICommentService extends IService<Comment> {
     void saveComment(Comment comment);
 
     Result deleteComment(Long id);
+
+    int getCommentCount();
 }

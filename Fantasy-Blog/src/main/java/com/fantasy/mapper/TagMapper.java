@@ -2,6 +2,7 @@ package com.fantasy.mapper;
 
 import com.fantasy.entity.Tag;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fantasy.model.vo.TagBlogCount;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -26,4 +27,5 @@ public interface TagMapper extends BaseMapper<Tag> {
      */
     List<Tag> getTagListById(Long blogId);
 
+    List<TagBlogCount> getTagBlogCount();
 }

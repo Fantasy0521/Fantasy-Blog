@@ -13,4 +13,14 @@
         where bt.tag_id = t.id and bt.blog_id = #{blogId}
     </select>
 
+    <resultMap id="tagBlogCount" type="com.fantasy.model.vo.TagBlogCount">
+        <id property="id" column="tag_id"/>
+        <result property="value" column="blog_count"/>
+    </resultMap>
+
+    <!--查询每个标签的博客数量-->
+    <select id="getTagBlogCount" resultMap="tagBlogCount">
+        select tag_id, count(tag_id) as blog_count from blog_tag group by tag_id
+    </select>
+    
 </mapper>

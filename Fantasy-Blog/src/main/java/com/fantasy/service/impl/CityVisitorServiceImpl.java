@@ -6,6 +6,8 @@ import com.fantasy.service.ICityVisitorService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -17,4 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CityVisitorServiceImpl extends ServiceImpl<CityVisitorMapper, CityVisitor> implements ICityVisitorService {
 
+    @Override
+    public List<CityVisitor> getCityVisitorList() {
+        return this.list();
+    }
 }

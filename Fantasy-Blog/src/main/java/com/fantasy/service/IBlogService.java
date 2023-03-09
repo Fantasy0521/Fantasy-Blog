@@ -42,4 +42,6 @@ public interface IBlogService extends IService<Blog> {
     Result deleteBlogById(Integer id);
 
     void updateBlogTopById(Long id, Boolean top);
+
+    int getBlogCount();
 }

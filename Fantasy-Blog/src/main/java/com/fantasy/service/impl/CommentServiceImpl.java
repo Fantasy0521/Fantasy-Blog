@@ -199,4 +199,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
     }
 
+    @Override
+    public int getCommentCount() {
+        return this.list().size();
+    }
 }

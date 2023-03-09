@@ -28,6 +28,9 @@ public class VisitLogServiceImpl extends ServiceImpl<VisitLogMapper, VisitLog> i
     @Autowired
     private UserAgentUtils userAgentUtils;
     
+    @Autowired
+    private VisitLogMapper visitLogMapper;
+    
     @Override
     @Transactional
     public void saveVisitLog(VisitLog log) {
@@ -42,6 +45,13 @@ public class VisitLogServiceImpl extends ServiceImpl<VisitLogMapper, VisitLog> i
             throw new RuntimeException(new BizException("日志添加失败"));
         }
     }
-    
-    
+
+    /**
+     * 统计今天的访问人数
+     * @return
+     */
+    @Override
+    public int countVisitLogByToday() {
+        return visitLogMapper.countVisitLogByToday();
+    }
 }

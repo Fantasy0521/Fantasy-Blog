@@ -3,6 +3,9 @@ package com.fantasy.service;
 import com.fantasy.entity.VisitRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IVisitRecordService extends IService<VisitRecord> {
 
+    Map<String, List> getVisitRecordMap();
+    
 }
