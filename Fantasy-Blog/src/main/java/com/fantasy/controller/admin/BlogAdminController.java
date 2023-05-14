@@ -3,6 +3,7 @@ package com.fantasy.controller.admin;
 import com.fantasy.entity.Blog;
 import com.fantasy.entity.Category;
 import com.fantasy.entity.Tag;
+import com.fantasy.entity.User;
 import com.fantasy.model.Result.Result;
 import com.fantasy.model.dto.BlogDto;
 import com.fantasy.service.IBlogService;
@@ -134,5 +135,17 @@ public class BlogAdminController {
         blogService.updateBlogTopById(id, top);
         return Result.ok("操作成功");
     }
-
+    
+    
+    @PostMapping("/login")
+    public Result login(@RequestBody User user){
+        if (user.getUsername().equals("Admin")) {
+            if (user.getPassword().equals("admin")) {
+                return Result.ok("登陆成功");
+            }
+        }
+        return Result.error();
+    }
+    
+    
 }
