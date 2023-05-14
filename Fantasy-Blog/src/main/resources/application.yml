@@ -9,7 +9,7 @@ spring:
       matching-strategy: ant_path_matcher
       
   profiles: # 设置环境配置文件
-    active: windows # 启用application-linux或windows
+    active: linux # 启用application-linux或windows
 
 
 mybatis-plus:

@@ -42,7 +42,7 @@ public class BlogController {
      * @return
      */
     @GetMapping("/blogs")
-    @ApiOperation(value = "访问页面",notes = "1")
+    @ApiOperation(value = "访问页面`",notes = "1")
     public Result getAllBlogs(@RequestParam(defaultValue = "1") Integer pageNum){
         PageResult<BlogInfo> allBlogsByPage = blogService.getAllBlogsByPage(pageNum);
         return Result.ok("获取所有博客信息成功!",allBlogsByPage);

@@ -58,11 +58,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Override
     public PageResult<PageComment> getCommentsList(Integer page, Long blogId, Integer pageNum, Integer pageSize) {
-        //使用PageHelper 主要要从此处开始分页,已经查询出结果后再进行分页无效
+        //使用PageHelper 注意要从此处开始分页,已经查询出结果后再进行分页无效
         PageHelper.startPage(pageNum, pageSize);
         //1 获取所有评论列表
         List<PageComment> comments = getPageCommentListByPageAndParentCommentId(page, blogId, -1L);
-        // 把所有子评论统一放入ReplyComments
+        //此时已经把所有子评论都已经递归查出
+        // 把所有子评论以及子评论的子评论统一放入ReplyComments 页面只做了两层显示 1父1子 即把孙子也当为子
         int totalChild = 0;
         for (PageComment c : comments) {
             List<PageComment> tmpComments = new ArrayList<>();
@@ -77,7 +78,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             c.setReplyComments(tmpComments);
         }
         //TODO 对评论的表情进行解析
-
+        
         //2 进行分页处理
         // 使用PageHelper
         PageInfo<PageComment> pageInfo = new PageInfo<>(comments);
@@ -96,13 +97,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @return
      */
     private List<PageComment> getPageCommentListByPageAndParentCommentId(Integer page, Long blogId, Long parentCommentId) {
+        //1 以parentCommentId作为条件,查询此节点下的子节点
         List<PageComment> comments = commentMapper.getPageCommentListByPageAndParentCommentId(page, blogId, parentCommentId);
+        //2 对子节点依次遍历查询出其子节点
         for (PageComment c : comments) {
-            //此时把patentCommentId设为自己的Id,对其子节点在进行查询,实现递归
+            //3 此时把patentCommentId设为自己的Id,对其子节点在进行查询,实现递归
             List<PageComment> replyComments = getPageCommentListByPageAndParentCommentId(page, blogId, c.getId());
-            //当开始设置子节点的时候已经遍历到叶子结点了,这时没有子节点
+            //5 当开始设置子节点的时候已经遍历到叶子结点了,本轮递归结束
             c.setReplyComments(replyComments);
         }
+        //4 当没有字节点时即当前节点为叶子结点,开始回归
         return comments;
     }
 

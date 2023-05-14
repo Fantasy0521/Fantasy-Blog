@@ -50,10 +50,10 @@ public class ExceptionLogAspect {
      */
     @AfterThrowing(value = "logPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Exception e) {
-        //获取异常详细信息
+        //1 获取异常详细信息
         ExceptionLog log = handleLog(joinPoint, e);
         System.out.println(log);
-        //存入数据库
+        //2 存入数据库
         exceptionLogService.saveExceptionLog(log);
     }
 
