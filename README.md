@@ -16,14 +16,14 @@
 
 本项目根据开源项目https://github.com/Naccl/NBlog 进行改写,主要用于对后端代码进行学习
 
-本着『前后端分离，人不分离』的要领，开发了此基于 Spring Boot + Vue 前后端分离博客系统
+项目已部署上线,欢迎访问http://110.40.221.157:8080/ (第一次加载会比较慢)
 
 ## 后端
 
 1. 核心框架：[Spring Boot](https://github.com/spring-projects/spring-boot)
 2. 持久层框架：[MybatisPlus](https://baomidou.com/pages/24112f/)
 3. 分页插件：[PageHelper](https://github.com/pagehelper/Mybatis-PageHelper)
-4. NoSQL缓存：[Redis](https://github.com/redis/redis) (暂未使用)
+4. NoSQL缓存：[Redis](https://github.com/redis/redis)
 5. Markdown 转 HTML：[commonmark-java](https://github.com/commonmark/commonmark-java)
 6. 离线 IP 地址库：[ip2region](https://github.com/lionsoul2014/ip2region)
 7. 定时任务：[quartz](https://github.com/quartz-scheduler/quartz)

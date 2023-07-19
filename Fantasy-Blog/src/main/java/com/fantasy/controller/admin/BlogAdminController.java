@@ -6,6 +6,7 @@ import com.fantasy.entity.Tag;
 import com.fantasy.entity.User;
 import com.fantasy.model.Result.Result;
 import com.fantasy.model.dto.BlogDto;
+import com.fantasy.model.vo.LoginUser;
 import com.fantasy.service.IBlogService;
 import com.fantasy.service.ICategoryService;
 import com.fantasy.service.ITagService;
@@ -138,7 +139,7 @@ public class BlogAdminController {
     
     
     @PostMapping("/login")
-    public Result login(@RequestBody User user){
+    public Result login(@RequestBody LoginUser user){
         if (user.getUsername().equals("Admin")) {
             if (user.getPassword().equals("admin")) {
                 return Result.ok("登陆成功");
