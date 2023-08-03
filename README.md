@@ -14,7 +14,6 @@
 
 ## 简介
 
-本项目根据开源项目https://github.com/Naccl/NBlog 进行改写,主要用于对后端代码进行学习
 
 项目已部署上线,欢迎访问http://110.40.221.157:8080/ (第一次加载会比较慢)
 
@@ -51,7 +50,7 @@ Vue 项目基于 @vue/cli4.x 构建
 JS 依赖及参考的
 css：[axios](https://github.com/axios/axios)、[moment](https://github.com/moment/moment)、[nprogress](https://github.com/rstacruz/nprogress)、[v-viewer](https://github.com/fengyuanchen/viewerjs)、[prismjs](https://github.com/PrismJS/prism)、[APlayer](https://github.com/DIYgod/APlayer)、[MetingJS](https://github.com/metowolf/MetingJS)、[lodash](https://github.com/lodash/lodash)、[mavonEditor](https://github.com/hinesboy/mavonEditor)、[echarts](https://github.com/apache/echarts)、[tocbot](https://github.com/tscanlin/tocbot)、[iCSS](https://github.com/chokcoco/iCSS)
 
-备注: 本人并未对此开源项目的前端代码进行修改
+
 
 ### 后台 UI
 
@@ -82,4 +81,4 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 
 ## 致谢
 
-感谢 [Naccl](https://github.com/Naccl) 提供的开源项目
+
