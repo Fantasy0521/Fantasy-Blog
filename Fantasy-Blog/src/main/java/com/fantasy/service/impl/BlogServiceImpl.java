@@ -23,6 +23,7 @@ import com.fantasy.util.markdown.MarkdownUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,8 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -66,6 +69,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
 
     //统一设定一页的博客数量为5
     private int pageSize = 5;
+
+    @Value("${download.url}")
+    private String url;
 
     /**
      * 根据页码进行分页查询,需要按照置顶、创建时间排序 分页查询博客简要信息列表
@@ -352,6 +358,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         blog.setUserId(1L);//个人博客默认只有一个作者
         blogDtoToBlog(blog);
         blog.setTags(tags);
+        // 图片上传处理
+        String content = blog.getContent();
+        blog.setContent(imageUploadHandler(content));
         if ("save".equals(type)) {
             blog.setCreateTime(LocalDateTime.now());
             this.save(blog);
@@ -372,6 +381,50 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
             return Result.ok("更新成功");
         }
     }
+
+    /**
+     * 解析context中的![ 表示为图片，进行图片上传 ，保存文件链接替换context
+     * ![debug.png](1)
+     * 111
+     * ![下载debug.jfif](1)
+     *
+     */
+    public String imageUploadHandler(String context){
+        String patternString = "!\\[(.*?)\\]\\(.*?\\)";
+
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(context);
+
+        StringBuffer modifiedString = new StringBuffer();
+        while (matcher.find()) {
+            String match = matcher.group(1);
+            // 执行你的修改逻辑，并将修改后的数据放入modifiedMatch变量中
+            //替换为下载链接
+            String modifiedMatch = "![" + match + "]" + "(" + url + match + ")";
+            matcher.appendReplacement(modifiedString, modifiedMatch);
+        }
+        matcher.appendTail(modifiedString);
+
+        System.out.println(modifiedString.toString());
+
+        return modifiedString.toString();
+    }
+
+    public void findContextImage(){
+        String string = "![debug.png](1)\n\n111\n![下载debug.jfif](1)";
+        String patternString = "!\\[(.*?)\\]\\(.*?\\)";
+
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(string);
+
+        while (matcher.find()) {
+            String match = matcher.group(1);
+            System.out.println(match);
+        }
+    }
+
+
+
 
     private void blogDtoToBlog(BlogDto blog) {
         blog.setIsPublished(blog.getPublished());

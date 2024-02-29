@@ -13,11 +13,22 @@ import com.fantasy.service.ITagService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 博客文章后台管理端
@@ -34,6 +45,9 @@ public class BlogAdminController {
 
     @Autowired
     private ITagService tagService;
+
+    @Value("${linuxImg.url}")
+    private String url;
 
     //写文章 http://localhost:8090/admin/blog
     /**
@@ -147,6 +161,80 @@ public class BlogAdminController {
         }
         return Result.error();
     }
-    
+
+    //文件上传 上传图片
+    @PostMapping("upload")
+    public Result upload(MultipartFile file) {
+//        System.out.println(file);
+        //获取文件原始名,使用原始名可能出现覆盖问题
+        String originalFilename = file.getOriginalFilename();
+        //获取后缀
+//        String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+//
+//        //这里采取随机生成一个文件名
+//        //使用UUID重新生成文件名
+//        String fileName = UUID.randomUUID().toString() + suffix;
+
+        String basePath = url;
+
+        //创建一个目录对象
+        File dir = new File(basePath);
+        //判断当前目录是否存在
+        if (!dir.exists()) {
+            //目录不存在,创建
+            dir.mkdir();
+        }
+
+        try {
+            file.transferTo(new File(basePath + originalFilename));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Result.ok("上传成功", originalFilename);
+
+    }
+
+    /**
+     * 文件下载
+     *
+     * @param name
+     * @param response
+     */
+    @GetMapping("/download")
+    public void download(String name, HttpServletResponse response) {
+        try {
+
+            String basePath = url;
+
+            //输入流,通过输入流读取文件内容
+            FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
+
+            //输出流,通过输出流将文件同时写会浏览器,在浏览器展示图片
+            ServletOutputStream outputStream = response.getOutputStream();
+
+            //浏览器下载
+//            response.setContentType("images/jepg");
+
+            //浏览器直接预览不下载
+            response.setHeader("Content-Type", "image/jpeg");
+            response.setHeader("Content-Disposition", "inline; filename=" +  URLEncoder.encode(name, "UTF-8"));
+
+
+            int len = 0;
+            byte[] bytes = new byte[1024];
+            while ((len = fileInputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, len);
+                outputStream.flush();
+            }
+            outputStream.close();
+            fileInputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     
 }

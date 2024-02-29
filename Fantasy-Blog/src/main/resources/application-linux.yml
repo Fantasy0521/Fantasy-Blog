@@ -9,10 +9,16 @@ spring:
 
 # 静态文件上传访问路径 Linux环境如 :/home/My Blog/upload
 upload:
-  path: /usr/local/fantasy-blog/upload
+  path: /usr/local/java/fantasy-blog/upload
   access:
     path: /images/**
   resources:
     locations: file:${upload.path}
 
+download: # 文件下载地址
+  #  url: http://127.0.0.1:8091/mhs/article/download?name=
+  url: http://110.40.221.157:8090/admin/download?name=
+
+linuxImg: # linux 下的图片存放路径
+  url: /usr/local/java/fantasy-blog/upload/
 
