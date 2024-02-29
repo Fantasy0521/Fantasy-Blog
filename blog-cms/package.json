@@ -5,7 +5,7 @@
   "author": "Naccl <i@naccl.top>",
   "private": true,
   "scripts": {
-    "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
@@ -13,6 +13,7 @@
     "core-js": "3.6.5",
     "echarts": "4.9.0",
     "element-ui": "2.13.2",
+    "highlight.js": "10.7.3",
     "lodash": "4.17.19",
     "mavon-editor": "2.9.1",
     "moment": "2.27.0",
