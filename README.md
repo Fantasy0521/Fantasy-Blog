@@ -1,6 +1,6 @@
 <p align="center">
 	<a href="https://github.com/Fantasy0521/Fantasy-Blog/tree/master" target="_blank">
-		<img src="./Fantasy-Blog.png" alt="NBlog logo" 
+		<img src="./Fantasy-Blog.png" alt="Fantasy-Blog logo" 
       style="width: 500px; height: 250px">
 	</a>
 </p>
@@ -14,7 +14,7 @@
 
 ## 简介
 
-
+项目主要对开源项目 https://github.com/Naccl/NBlog 后端进行学习并重构
 项目已部署上线,欢迎访问http://110.40.221.157:8080/ (第一次加载会比较慢)
 
 ## 后端
@@ -30,44 +30,6 @@
 9. 后端API接口文档: [Swagger](https://swagger.io/)
 10. 项目部署: [Linux](https://www.linux.org/pages/download/)
 
-基于 JDK8 开发，8以上要添加依赖：
-
-```xml
-
-<dependency>
-    <groupId>javax.xml.bind</groupId>
-    <artifactId>jaxb-api</artifactId>
-    <version>2.3.0</version>
-</dependency>
-```
-
-## 前端
-
-核心框架：Vue2.x、Vue Router、Vuex
-
-Vue 项目基于 @vue/cli4.x 构建
-
-JS 依赖及参考的
-css：[axios](https://github.com/axios/axios)、[moment](https://github.com/moment/moment)、[nprogress](https://github.com/rstacruz/nprogress)、[v-viewer](https://github.com/fengyuanchen/viewerjs)、[prismjs](https://github.com/PrismJS/prism)、[APlayer](https://github.com/DIYgod/APlayer)、[MetingJS](https://github.com/metowolf/MetingJS)、[lodash](https://github.com/lodash/lodash)、[mavonEditor](https://github.com/hinesboy/mavonEditor)、[echarts](https://github.com/apache/echarts)、[tocbot](https://github.com/tscanlin/tocbot)、[iCSS](https://github.com/chokcoco/iCSS)
-
-
-
-### 后台 UI
-
-后台 CMS 部分基于 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
-二次修改后的 [my-vue-admin-template](https://github.com/Naccl/my-vue-admin-template)
-模板进行开发（于2021年11月1日重构过一次，[重构 commit](https://github.com/Naccl/NBlog/commit/b33641fe34b2bed34e8237bacf67146cd64be4cf)）
-
-UI 框架为 [Element UI](https://github.com/ElemeFE/element)
-
-### 前台 UI
-
-[Semantic UI](https://semantic-ui.com/)：主要使用，页面布局样式，个人感觉挺好看的 UI 框架，比较适合前台界面的开发，语义化的 css，前一版博客系统使用过，可惜该框架 Vue
-版的开发完成度不高，见 [Semantic UI Vue](https://semantic-ui-vue.github.io/#/)
-
-[Element UI](https://github.com/ElemeFE/element)：部分使用，一些小组件，弥补了 Semantic UI 的不足，便于快速实现效果
-
-文章排版：基于 [typo.css](https://github.com/sofish/typo.css) 修改
 
 ## 快速开始
 
@@ -81,4 +43,5 @@ UI 框架为 [Element UI](https://github.com/ElemeFE/element)
 
 ## 致谢
 
+感谢 [Naccl](https://github.com/Naccl) 提供的开源项目
 
