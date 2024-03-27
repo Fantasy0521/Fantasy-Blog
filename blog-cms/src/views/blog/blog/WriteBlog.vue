@@ -19,7 +19,7 @@
 			</el-form-item>
 
 			<el-form-item label="文章正文" prop="content">
-				<mavon-editor v-model="form.content"/>
+				<mavon-editor v-model="form.content" @imgAdd="imgAdd"/>
 			</el-form-item>
 
 			<el-row :gutter="20">
@@ -105,7 +105,17 @@
 <script>
 	import Breadcrumb from "@/components/Breadcrumb";
 	import {getCategoryAndTag, saveBlog, getBlogById, updateBlog} from '@/api/blog'
-
+  import axios from "axios";
+  import log from "echarts/src/scale/Log";
+  export function getimgurl(formdata) {
+    return axios({
+      url : 'http://110.40.221.157:8090/admin/upload',
+      method : 'POST',
+      data : formdata,
+      headers : {'Content-Type' : 'multipart/form-data'},
+      responseType : 'text'
+    });
+  }
 	export default {
 		name: "WriteBlog",
 		components: {Breadcrumb},
@@ -217,7 +227,25 @@
 						return this.msgError('请填写必要的表单项')
 					}
 				})
-			}
+			},
+      // 上傳圖片script部分
+      imgAdd(pos, file) {
+        //这里的pos指的是在数组中的下标
+        //这里创建FormData对象并将从本地获取到的file值存入。
+        var formdata = new FormData();
+        formdata.append("file", file);
+
+        getimgurl(formdata)
+            .then((response) => {
+              // 请求成功，获取后端返回的字符串数据
+              //   console.log("返回的字符串数据:", response);
+            })
+            .catch((error) => {
+              // 请求失败，处理错误
+              console.error("上传失败:", error);
+            });
+
+      }
 		}
 	}
 </script>

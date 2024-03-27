@@ -14,13 +14,13 @@ let CancelToken = axios.CancelToken
 request.interceptors.request.use(config => {
 		//对于访客模式，除GET请求外，都拦截并提示
 		const userJson = window.localStorage.getItem('user') || '{}'
-		const user = JSON.parse(userJson)
-		if (userJson !== '{}' && user.role !== 'ROLE_admin' && config.method !== 'get') {
-			config.cancelToken = new CancelToken(function executor(cancel) {
-				cancel('演示模式，不允许操作')
-			})
-			return config
-		}
+		// const user = JSON.parse(userJson)
+		// if (userJson !== '{}' && user.role !== 'ROLE_admin' && config.method !== 'get') {
+		// 	config.cancelToken = new CancelToken(function executor(cancel) {
+		// 		cancel('演示模式，不允许操作')
+		// 	})
+		// 	return config
+		// }
 
 		NProgress.start()
 		const token = window.localStorage.getItem('token')

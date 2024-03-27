@@ -85,8 +85,9 @@
 						login(this.loginForm).then(res => {
 							if (res.code === 200) {
 								this.msgSuccess(res.msg);
-								window.localStorage.setItem('token', res.data.token)
-								window.localStorage.setItem('user', JSON.stringify(res.data.user))
+								window.localStorage.setItem('token', '1')
+								// window.localStorage.setItem('user', JSON.stringify(res.data.user))
+								window.localStorage.setItem('user', '{"role":"ROLE_admin","b":5,"c":"dkjsf"}')
 								this.$router.push('/')
 							}
 						})
