@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "serve1": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
