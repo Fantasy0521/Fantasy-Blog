@@ -1,3 +1,5 @@
+
+
 <p align="center">
 	<a href="https://github.com/Fantasy0521/Fantasy-Blog/tree/master" target="_blank">
 		<img src="./Fantasy-Blog.png" alt="Fantasy-Blog logo" 
@@ -33,7 +35,7 @@
 
 ## 快速开始
 
-1. 创建 MySQL 数据库`fantasy-blog`，并执行`/Fantasy-Blog/nblog.sql`初始化表数据
+1. 创建 MySQL 数据库`fantasy-blog`，并执行`Fantasy-Blog/nblog.sql`初始化表数据
 2. 修改配置信息`Fantasy-Blog/src/main/resources/application.yml`
 3. 安装 Redis 并启动(暂不需要)
 4. 启动后端服务
@@ -44,4 +46,3 @@
 ## 致谢
 
 感谢 [Naccl](https://github.com/Naccl) 提供的开源项目
-
